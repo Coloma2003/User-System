@@ -1,3 +1,7 @@
+
+import javax.swing.JOptionPane;
+import java.util.ArrayList;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -9,6 +13,8 @@
  */
 public class LoginFrom extends javax.swing.JFrame {
     
+    ArrayList<User> ListUser = new ArrayList<>();
+    int intentos =0;
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(LoginFrom.class.getName());
 
     /**
@@ -16,8 +22,11 @@ public class LoginFrom extends javax.swing.JFrame {
      */
     public LoginFrom() {
         initComponents();
+        
+        ListUser.add(new User("Admin", "1234"));
+        ListUser.add(new User("Jorge", "12345"));
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -32,7 +41,7 @@ public class LoginFrom extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         txtUser = new javax.swing.JTextField();
         txtPassword = new javax.swing.JPasswordField();
-        jButton1 = new javax.swing.JButton();
+        btnAccess = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -46,9 +55,9 @@ public class LoginFrom extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel3.setText("Password");
 
-        jButton1.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
-        jButton1.setText("ACCESS");
-        jButton1.addActionListener(this::jButton1ActionPerformed);
+        btnAccess.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        btnAccess.setText("ACCESS");
+        btnAccess.addActionListener(this::btnAccessActionPerformed);
 
         jLabel4.setFont(new java.awt.Font("Times New Roman", 1, 48)); // NOI18N
         jLabel4.setText("LOGIN IN");
@@ -77,7 +86,7 @@ public class LoginFrom extends javax.swing.JFrame {
                         .addGap(194, 194, 194))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addComponent(btnAccess)
                 .addGap(259, 259, 259))
         );
         layout.setVerticalGroup(
@@ -96,27 +105,45 @@ public class LoginFrom extends javax.swing.JFrame {
                     .addComponent(jLabel3)
                     .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(27, 27, 27)
-                .addComponent(jButton1)
+                .addComponent(btnAccess)
                 .addContainerGap(57, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    
+    private void btnAccessActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAccessActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-    String usuario = txtUser.getText();
-        String password = new String(txtPassword.getPassword());
+    String usuarioIngresado = txtUser.getText();
+    String passwordIngresado = new String(txtPassword.getPassword());
 
-        if(usuario.equals("Jorge123") && password.equals("Usuario123@")) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Bienvenido");
+    boolean encontrado = false;
 
-            // Abrir menú principal
-            new MenuPrincipal().setVisible(true);
-            this.dispose();
+    for(User u : ListUser){
+        if(u.getUsername().equals(usuarioIngresado) && 
+           u.getPassword().equals(passwordIngresado)){
+            encontrado = true;
+            break;
+        }
+    }
+
+    if(encontrado){
+        MenuPrincipal menu = new MenuPrincipal();
+        menu.setVisible(true);
+        this.dispose();
+    } else {
+        intentos++;
+
+        if(intentos >= 3){
+            JOptionPane.showMessageDialog(this, "Usuario bloqueado");
+            btnAccess.setEnabled(false);
         } else {
-            javax.swing.JOptionPane.showMessageDialog(this, "Credenciales incorrectas");
-        }    // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+            JOptionPane.showMessageDialog(this, 
+                "Credenciales incorrectas. Intento " + intentos);
+        }
+    }
+// TODO add your handling code here:
+    }//GEN-LAST:event_btnAccessActionPerformed
 
     /**
      * @param args the command line arguments
@@ -144,7 +171,7 @@ public class LoginFrom extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnAccess;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
