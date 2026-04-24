@@ -23,8 +23,12 @@ public class LoginFrom extends javax.swing.JFrame {
     public LoginFrom() {
         initComponents();
         
-        ListUser.add(new User("Admin", "1234"));
-        ListUser.add(new User("Jorge", "12345"));
+        ListUser.add(new User("JorgeC", "Jorge23145@"));
+    }
+    
+    public LoginFrom(ArrayList<User> ListUser) {
+        initComponents();
+        this.ListUser = ListUser;
     }
     
     /**
@@ -67,7 +71,7 @@ public class LoginFrom extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(0, 179, Short.MAX_VALUE)
+                .addGap(0, 111, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel4)
@@ -106,7 +110,7 @@ public class LoginFrom extends javax.swing.JFrame {
                     .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(27, 27, 27)
                 .addComponent(btnAccess)
-                .addContainerGap(57, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         pack();
@@ -122,26 +126,33 @@ public class LoginFrom extends javax.swing.JFrame {
     for(User u : ListUser){
         if(u.getUsername().equals(usuarioIngresado) && 
            u.getPassword().equals(passwordIngresado)){
-            encontrado = true;
-            break;
+
+            if(u.Active()){
+                encontrado = true;
+                break;
+            } else {
+                JOptionPane.showMessageDialog(this, "Inactive User");
+                return;
+            }
         }
     }
 
     if(encontrado){
-        MenuPrincipal menu = new MenuPrincipal();
+        MenuPrincipal menu = new MenuPrincipal(ListUser, usuarioIngresado);
         menu.setVisible(true);
         this.dispose();
     } else {
         intentos++;
 
         if(intentos >= 3){
-            JOptionPane.showMessageDialog(this, "Usuario bloqueado");
+            JOptionPane.showMessageDialog(this, "User Blocked");
             btnAccess.setEnabled(false);
         } else {
             JOptionPane.showMessageDialog(this, 
-                "Credenciales incorrectas. Intento " + intentos);
+                "Incorrect Credentials. Attempt " + (3 - intentos));
         }
     }
+    
 // TODO add your handling code here:
     }//GEN-LAST:event_btnAccessActionPerformed
 
