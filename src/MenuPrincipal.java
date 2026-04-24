@@ -1,3 +1,6 @@
+
+import java.util.ArrayList;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -9,14 +12,22 @@
  */
 public class MenuPrincipal extends javax.swing.JFrame {
     
+    
+    ArrayList<User> ListUser;
+    String currentUser;
+    
+    public MenuPrincipal(ArrayList<User> ListUser, String currentUser) {
+        initComponents();
+        this.ListUser = ListUser;
+        this.currentUser = currentUser;
+    }
+    
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(MenuPrincipal.class.getName());
 
     /**
      * Creates new form MenuPrincipal
      */
-    public MenuPrincipal() {
-        initComponents();
-    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -28,65 +39,88 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnSupport = new javax.swing.JButton();
+        btnPasswordReset = new javax.swing.JButton();
+        LogOut = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jLabel1.setBackground(new java.awt.Color(0, 161, 255));
         jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 48)); // NOI18N
         jLabel1.setText("Welcome to our program ");
+        jLabel1.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 255, 0)));
 
-        jButton1.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
-        jButton1.setText("User Support");
+        btnSupport.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        btnSupport.setText("User Support");
+        btnSupport.addActionListener(this::btnSupportActionPerformed);
 
-        jButton2.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
-        jButton2.setText("Password reset");
+        btnPasswordReset.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        btnPasswordReset.setText("Password reset");
+        btnPasswordReset.addActionListener(this::btnPasswordResetActionPerformed);
 
-        jButton3.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
-        jButton3.setText("Log Out");
-        jButton3.addActionListener(this::jButton3ActionPerformed);
+        LogOut.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        LogOut.setText("Log Out");
+        LogOut.addActionListener(this::LogOutActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(83, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(81, 81, 81))
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(btnSupport)
+                .addGap(32, 32, 32)
+                .addComponent(btnPasswordReset)
+                .addGap(91, 91, 91))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(154, 154, 154)
-                        .addComponent(jButton1)
-                        .addGap(41, 41, 41)
-                        .addComponent(jButton2))
+                        .addGap(14, 14, 14)
+                        .addComponent(jLabel1))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(283, 283, 283)
-                        .addComponent(jButton3)))
+                        .addGap(203, 203, 203)
+                        .addComponent(LogOut)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(18, 18, 18)
                 .addComponent(jLabel1)
-                .addGap(45, 45, 45)
+                .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
-                .addComponent(jButton3)
-                .addGap(43, 43, 43))
+                    .addComponent(btnPasswordReset)
+                    .addComponent(btnSupport))
+                .addGap(28, 28, 28)
+                .addComponent(LogOut)
+                .addContainerGap(31, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void LogOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogOutActionPerformed
+        LoginFrom login = new LoginFrom(ListUser);
+        login.setVisible(true);
+        this.dispose();
+
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_LogOutActionPerformed
+
+    private void btnSupportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSupportActionPerformed
+    UserSupport menu = new UserSupport(ListUser, currentUser);
+    menu.setVisible(true);
+    this.dispose();
+    
+    // TODO add your handling code here:
+    }//GEN-LAST:event_btnSupportActionPerformed
+
+    private void btnPasswordResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPasswordResetActionPerformed
+        PasswordReset p = new PasswordReset(ListUser, currentUser);
+        p.setVisible(true);
+        
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnPasswordResetActionPerformed
 
     /**
      * @param args the command line arguments
@@ -110,13 +144,13 @@ public class MenuPrincipal extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new MenuPrincipal().setVisible(true));
+        //java.awt.EventQueue.invokeLater(() -> new MenuPrincipal().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton LogOut;
+    private javax.swing.JButton btnPasswordReset;
+    private javax.swing.JButton btnSupport;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }
